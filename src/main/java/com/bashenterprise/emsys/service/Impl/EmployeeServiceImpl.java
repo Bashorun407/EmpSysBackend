@@ -8,6 +8,8 @@ import com.bashenterprise.emsys.repository.EmployeeRepository;
 import com.bashenterprise.emsys.service.EmployeeService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
@@ -32,5 +34,13 @@ public class EmployeeServiceImpl implements EmployeeService {
                         new ResourceNotFoundException("Employee with " +
                                 "given id does not exist : " + id));
         return EmployeeMapper.mapToEmployeeDto(employee);
+    }
+
+    @Override
+    public List<EmployeeDto> getAllEmployees() {
+        List<Employee> employees = employeeRepository.findAll();
+
+        return employees.stream()
+                .map(EmployeeMapper::mapToEmployeeDto).toList();
     }
 }
