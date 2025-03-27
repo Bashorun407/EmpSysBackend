@@ -2,6 +2,7 @@ package com.bashenterprise.emsys.service.Impl;
 
 import com.bashenterprise.emsys.dto.EmployeeDto;
 import com.bashenterprise.emsys.entity.Employee;
+import com.bashenterprise.emsys.exception.ResourceNotFoundException;
 import com.bashenterprise.emsys.mapper.EmployeeMapper;
 import com.bashenterprise.emsys.repository.EmployeeRepository;
 import com.bashenterprise.emsys.service.EmployeeService;
@@ -22,5 +23,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee savedEmployee = employeeRepository.save(employee);
 
         return EmployeeMapper.mapToEmployeeDto(savedEmployee);
+    }
+
+    @Override
+    public EmployeeDto getEmployeeById(Long id) {
+       Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Employee with " +
+                                "given id does not exist : " + id));
+        return EmployeeMapper.mapToEmployeeDto(employee);
     }
 }
