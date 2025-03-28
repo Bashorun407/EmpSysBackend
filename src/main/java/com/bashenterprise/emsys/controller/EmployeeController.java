@@ -35,4 +35,9 @@ public class EmployeeController {
         List<EmployeeDto> employeeDtos = employeeService.getAllEmployees();
         return ResponseEntity.ok(employeeDtos);
     }
+
+    public ResponseEntity<EmployeeDto> updateEmployee(Long id, EmployeeDto employeeDto){
+        EmployeeDto updatedEmployeeDto = employeeService.updateEmployee(id, employeeDto);
+        return ResponseEntity.ok(updatedEmployeeDto);
+    }
 }
