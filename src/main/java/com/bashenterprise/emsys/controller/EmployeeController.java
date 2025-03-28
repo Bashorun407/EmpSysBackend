@@ -18,26 +18,40 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
+    //BUILD CREATE EMPLOYEE API
     @PostMapping("/create")
     public ResponseEntity<EmployeeDto> createEmployee(@RequestBody EmployeeDto employeeDto){
         EmployeeDto savedEmployee = employeeService.createEmployee(employeeDto);
         return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
     }
 
+    //BUILD GET EMPLOYEE BY ID API
     @GetMapping("/{id}")
     public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable("id") Long id){
         EmployeeDto employeeDto = employeeService.getEmployeeById(id);
         return ResponseEntity.ok(employeeDto);
     }
 
+    //BUILD GET ALL EMPLOYEE API
     @GetMapping("/allEmployees")
     public ResponseEntity<List<EmployeeDto>> getAllEmployees(){
         List<EmployeeDto> employeeDtos = employeeService.getAllEmployees();
         return ResponseEntity.ok(employeeDtos);
     }
 
-    public ResponseEntity<EmployeeDto> updateEmployee(Long id, EmployeeDto employeeDto){
+    //BUILD UPDATE API
+    @PutMapping("/update/{id}")
+    public ResponseEntity<EmployeeDto> updateEmployee(@PathVariable("id") Long id,
+                                                      @RequestBody EmployeeDto employeeDto){
         EmployeeDto updatedEmployeeDto = employeeService.updateEmployee(id, employeeDto);
         return ResponseEntity.ok(updatedEmployeeDto);
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteEmployeeById(@PathVariable("id") Long id){
+        employeeService.deleteEmployee(id);
+
+        return ResponseEntity.ok("Employee successfully deleted!");
+    }
+
 }
